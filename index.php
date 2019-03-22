@@ -2,7 +2,7 @@
 /*
 Plugin Name: ALT Lab Playground - regular deleter of users and content
 Plugin URI:  https://github.com/
-Description: delete users and content every X hours
+Description: delete non-admin users and content every 24 hours
 Version:     1.0
 Author:      ALT Lab
 Author URI:  http://altlab.vcu.edu
@@ -97,3 +97,20 @@ function make_destroy_page(){
 
 register_activation_hook( __FILE__, 'make_destroy_page' );
 
+
+//make it run every 24 hrs & deactivate if plugin deactivated
+register_activation_hook(__FILE__, 'scheduled_purge');
+
+function scheduled_purge() {
+    if (! wp_next_scheduled ( 'scheduled_purge' )) {
+	wp_schedule_event(time(), 'daily', 'scheduled_purge');
+    }
+}
+
+add_action('scheduled_purge', 'get_users_and_destroy_them');
+
+register_deactivation_hook(__FILE__, 'purge_deactivation');
+
+function purge_deactivation() {
+	wp_clear_scheduled_hook('scheduled_purge');
+}
