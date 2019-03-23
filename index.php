@@ -1,10 +1,10 @@
 <?php 
 /*
-Plugin Name: ALT Lab Playground - regular deleter of users and content
+Plugin Name: Playground Cleaner - 24 deleter of non-admin users and content
 Plugin URI:  https://github.com/
-Description: delete non-admin users and content every 24 hours
+Description: delete non-admin users and content every 24 hours, use in conjunction with join my multisite or other way to add users
 Version:     1.0
-Author:      ALT Lab
+Author:      Tom Woodward
 Author URI:  http://altlab.vcu.edu
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -25,7 +25,7 @@ function get_users_and_destroy_them(){
 		echo $user->ID;
 		$posts = new WP_Query( array( 'author' => $user->ID ) );
 		get_content_and_destroy_it($user->ID);
-		//remove_user_from_blog($user->ID, $blog_id, NULL);
+		remove_user_from_blog($user->ID, $blog_id, NULL);
 	}
 }
 
@@ -109,8 +109,8 @@ function scheduled_purge() {
 
 add_action('scheduled_purge', 'get_users_and_destroy_them');
 
+//turn off purge if plugin deactivated
 register_deactivation_hook(__FILE__, 'purge_deactivation');
-
 function purge_deactivation() {
 	wp_clear_scheduled_hook('scheduled_purge');
 }
