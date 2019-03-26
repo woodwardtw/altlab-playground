@@ -1,6 +1,6 @@
 <?php 
 /*
-Plugin Name: Playground Cleaner - 24 deleter of non-admin users and content
+Plugin Name: Playground Cleaner - 24hr deleter of non-admin users and content
 Plugin URI:  https://github.com/
 Description: delete non-admin users and content every 24 hours, use in conjunction with join my multisite or other way to add users
 Version:     1.0
@@ -102,15 +102,15 @@ register_activation_hook( __FILE__, 'make_destroy_page' );
 register_activation_hook(__FILE__, 'scheduled_purge');
 
 function scheduled_purge() {
-    if (! wp_next_scheduled ( 'scheduled_purge' )) {
-	wp_schedule_event(time(), 'daily', 'scheduled_purge');
+    if (! wp_next_scheduled ( 'my_scheduled_purge' )) {
+	wp_schedule_event(time(), 'hourly', 'my_scheduled_purge'); //change back to daily 
     }
 }
 
-add_action('scheduled_purge', 'get_users_and_destroy_them');
+add_action('my_scheduled_purge', 'get_users_and_destroy_them');
 
 //turn off purge if plugin deactivated
 register_deactivation_hook(__FILE__, 'purge_deactivation');
 function purge_deactivation() {
-	wp_clear_scheduled_hook('scheduled_purge');
+	wp_clear_scheduled_hook('my_scheduled_purge');
 }
