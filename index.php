@@ -1,11 +1,11 @@
 <?php 
 /*
 Plugin Name: Playground Cleaner - 24hr deleter of non-admin users and content
-Plugin URI:  https://github.com/
+Plugin URI:  https://github.com/woodwardtw/playground-cleaner/
 Description: delete non-admin users and content every 24 hours, use in conjunction with join my multisite or other way to add users
 Version:     1.0
 Author:      Tom Woodward
-Author URI:  http://altlab.vcu.edu
+Author URI:  http://bionicteaching.com
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Domain Path: /languages
