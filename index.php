@@ -98,16 +98,18 @@ function make_destroy_page(){
 register_activation_hook( __FILE__, 'make_destroy_page' );
 
 
+
 //make it run every 24 hrs & deactivate if plugin deactivated
 register_activation_hook(__FILE__, 'scheduled_purge');
 
 function scheduled_purge() {
     if (! wp_next_scheduled ( 'my_scheduled_purge' )) {
-	wp_schedule_event(time(), 'hourly', 'my_scheduled_purge'); //change back to daily 
+	wp_schedule_event(time(), 'daily', 'my_scheduled_purge'); //change back to daily 
     }
 }
 
 add_action('my_scheduled_purge', 'get_users_and_destroy_them');
+
 
 //turn off purge if plugin deactivated
 register_deactivation_hook(__FILE__, 'purge_deactivation');
